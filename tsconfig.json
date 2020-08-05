@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist", //compile into this directory
+        "baseUrl": ".", //set a base directory to resolve non-absolute module names.
+        "noImplicitAny": true, // no any
+        "module": "ESNext", // Sets the module system for the program
+        "target": "es6", //The target setting changes which JS features are downleveled and which are left intact
+        "jsx": "react", //Controls how JSX constructs are emitted in JavaScript files, only effect on .tsx files
+        "allowJs": true, // allow js files
+        "allowSyntheticDefaultImports": true, //This option brings the behavior of TypeScript in-line with Babel, where extra code is emitted to make using a default export of a module more ergonomic
+        "moduleResolution": "node", //Specify the module resolution strategy: 'node' (Node.js) or 'classic' 
+        "importHelpers": true, //helper functions are instead imported from the tslib module.
+        "inlineSourceMap": true, // source map
+        "paths": {
+            "@":["./src"],
+            "@assets/*": ["./src/assets/*"]
+        },
+        "typeRoots": ["node_modules/@types","./src/typings"]
+    },
+    "include": ["./src/**/*"], //Specifies an array of filenames or patterns to include in the program. These filenames are resolved relative to the directory containing the tsconfig.json file.
+    "exclude": [], //Specifies an array of filenames or patterns that should be skipped when resolving include
+}
