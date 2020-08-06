@@ -4,7 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon -w ./config/webpack.dev.js -x \"cross-env NODE_ENV=development webpack-dev-server --config ./config/webpack.dev.js --progress\"",
+    "start:dev": "webpack --config ./config/webpack.dev.js",
+    "build:dll": "webpack --config ./config/webpack.dll.config.js",
+    "build:server": "cross-env NODE_ENV=production webpack-dev-server --config ./config/webpack.prod.js",
+    "build": "webpack --config ./config/webpack.prod.js",
+    "postinstall": "yarn build:dll",
+    "deploy": "gh-pages -d dist"
   },
   "repository": {
     "type": "git",
@@ -62,6 +68,7 @@
     "typescript": "^3.9.7",
     "url-loader": "^4.1.0",
     "webpack": "^4.44.1",
+    "webpack-bundle-analyzer": "^3.8.0",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^5.1.1"

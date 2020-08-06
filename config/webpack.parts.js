@@ -10,6 +10,7 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const cssnano = require('cssnano');
 const GitRevisionPlugin = require('git-revision-webpack-plugin');
 const Webpack = require('webpack');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 dotEnv.config({
   path: path.resolve(process.cwd(), '.env'),
@@ -188,4 +189,14 @@ exports.attachRevisions = () => ({
       banner: new GitRevisionPlugin().version(),
     }),
   ],
+});
+exports.setFreeVariable = (key, value) => {
+  const env = {};
+  env[key] = JSON.stringify(value);
+  return {
+    plugins: [new Webpack.DefinePlugin(env)],
+  };
+};
+exports.analyzeBundle = () => ({
+  plugins: [new BundleAnalyzerPlugin()],
 });
