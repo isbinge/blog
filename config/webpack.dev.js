@@ -8,6 +8,7 @@ module.exports = merge([
   {
     mode: 'development',
   },
+  parts.generateSourceMap('cheap-module-eval-source-map'),
   parts.loadTypeScript({
     include: path.resolve(parts.appDirectory, 'src'),
   }),

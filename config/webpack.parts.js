@@ -176,3 +176,7 @@ exports.page = ({
 exports.clean = () => ({
   plugins: [new CleanWebpackPlugin()],
 });
+
+exports.generateSourceMap = (type) => ({
+  devtool: type,
+});
