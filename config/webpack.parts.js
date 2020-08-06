@@ -8,6 +8,8 @@ const TerserPlugin = require('terser-webpack-plugin');
 const PurgecssPlugin = require('purgecss-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const cssnano = require('cssnano');
+const GitRevisionPlugin = require('git-revision-webpack-plugin');
+const Webpack = require('webpack');
 
 dotEnv.config({
   path: path.resolve(process.cwd(), '.env'),
@@ -179,4 +181,11 @@ exports.clean = () => ({
 
 exports.generateSourceMap = (type) => ({
   devtool: type,
+});
+exports.attachRevisions = () => ({
+  plugins: [
+    new Webpack.BannerPlugin({
+      banner: new GitRevisionPlugin().version(),
+    }),
+  ],
 });

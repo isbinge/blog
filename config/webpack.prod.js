@@ -81,5 +81,6 @@ module.exports = merge([
       safe: true,
     },
   }),
+  parts.attachRevisions(),
   parts.clean(),
 ]);
