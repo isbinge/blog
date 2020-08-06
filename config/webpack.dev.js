@@ -6,10 +6,19 @@ module.exports = merge([
   {
     mode: 'development',
   },
+  parts.loadTypeScript({
+    include: path.resolve(parts.appDirectory, 'src'),
+  }),
+  parts.loadImages({
+    options: {
+      limit: 10000,
+      name: '[name].[hash:5].[ext]',
+    },
+  }),
   parts.page({
     output: {
-      filename: '[name].[hash:5].hash.js',
-      chunkFilename: '[name].[contenthash:5].contenthash.js',
+      filename: '[name].[hash:5].js',
+      chunkFilename: '[name].[contenthash:5].js',
       path: path.resolve(parts.appDirectory, 'dist'),
       publicPath: '/',
     },
@@ -22,5 +31,9 @@ module.exports = merge([
         'https://unpkg.com/react-dom@16/umd/react-dom.development.js',
       ],
     },
+  }),
+  parts.devServer({
+    port: process.env.port,
+    host: process.env.host,
   }),
 ]);

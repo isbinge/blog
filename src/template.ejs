@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+    <% if(htmlWebpackPlugin.options.cdn){ %> 
+        <% for(var i in htmlWebpackPlugin.options.cdn){ %>
+        <script crossorigin  src="<%= htmlWebpackPlugin.options.cdn[i] %>"></script>
+        <% } %> 
+    <% } %>
+    <div id='root'></div>
+
+</body>
