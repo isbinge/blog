@@ -7,6 +7,10 @@ module.exports = merge([
   common,
   {
     mode: 'development',
+    externals: {
+      react: 'React',
+      'react-dom': 'ReactDOM',
+    },
   },
   parts.generateSourceMap('cheap-module-eval-source-map'),
   parts.loadTypeScript({
@@ -40,7 +44,7 @@ module.exports = merge([
       path: path.resolve(parts.appDirectory, 'dist'),
       publicPath: '/',
     },
-    title: 'demo2',
+    title: 'Isbinge Blog',
     filename: 'index.html',
     options: {
       inject: true,
@@ -50,6 +54,7 @@ module.exports = merge([
       ],
     },
   }),
+  parts.useDll(),
   parts.devServer({
     port: process.env.port,
     host: process.env.host,

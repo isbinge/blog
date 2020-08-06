@@ -11,6 +11,7 @@ const cssnano = require('cssnano');
 const GitRevisionPlugin = require('git-revision-webpack-plugin');
 const Webpack = require('webpack');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const WebpackBar = require('webpackbar');
 
 dotEnv.config({
   path: path.resolve(process.cwd(), '.env'),
@@ -145,6 +146,18 @@ exports.loadFonts = () => ({
     },
   },
 });
+exports.dontParse = ({ name, path }) => {
+  const alias = {};
+  alias[name] = path;
+  return {
+    module: {
+      noParse: [new RegExp(path)],
+    },
+    resolve: {
+      alias,
+    },
+  };
+};
 exports.devServer = ({ host, port }) => ({
   devServer: {
     host,
@@ -199,4 +212,25 @@ exports.setFreeVariable = (key, value) => {
 };
 exports.analyzeBundle = () => ({
   plugins: [new BundleAnalyzerPlugin()],
+});
+exports.useDll = () => {
+  const dllPath = path.resolve(process.cwd(), 'dll', 'manifest.json');
+  if (!fs.existsSync(dllPath)) {
+    console.error(`Can't find file manifest.json`);
+    return [];
+  }
+  console.log(dllPath);
+  return {
+    plugins: [
+      new Webpack.DllReferencePlugin({
+        context: path.resolve(process.cwd(), 'dll'),
+        manifest: require(dllPath),
+        // sourceType: 'var',
+      }),
+    ],
+  };
+};
+
+exports.enableProgressBar = () => ({
+  plugins: [new WebpackBar()],
 });

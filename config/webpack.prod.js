@@ -86,13 +86,13 @@ module.exports = merge(
         safe: true,
       },
     }),
-
+    // parts.useDll(),
     parts.page({
       output: {
         path: path.resolve(parts.appDirectory, 'dist'),
         publicPath: `/`,
       },
-      title: 'Personal Blog',
+      title: 'Isbinge Blog',
       filename: 'index.html',
       options: {
         minify: {
@@ -104,6 +104,13 @@ module.exports = merge(
           useShortDoctype: true,
           miniCSS: true,
           miniURLS: true,
+        },
+        options: {
+          inject: true,
+          cdn: [
+            'https://unpkg.com/react@16.13.1/umd/react.development.js',
+            'https://unpkg.com/react-dom@16/umd/react-dom.development.js',
+          ],
         },
       },
     }),
