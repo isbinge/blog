@@ -4,6 +4,10 @@ const dotEnv = require('dotenv');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const PurgecssPlugin = require('purgecss-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const cssnano = require('cssnano');
 
 dotEnv.config({
   path: path.resolve(process.cwd(), '.env'),
@@ -32,6 +36,22 @@ exports.loadTypeScript = ({ include, exclude, options, use = [] }) => {
     },
   };
 };
+exports.minifyJavaScript = () => ({
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        parallel: 4,
+        terserOptions: {
+          output: {
+            comments: false,
+            beautify: false,
+          },
+        },
+        extractComments: false,
+      }),
+    ],
+  },
+});
 exports.loadCSS = ({
   test,
   include,
@@ -71,6 +91,21 @@ exports.autoprefix = () => ({
   options: {
     plugins: () => [require('autoprefixer')()],
   },
+});
+exports.purgeCSS = (options) => {
+  return {
+    plugins: [new PurgecssPlugin(options)],
+  };
+};
+exports.minifyCSS = ({ options }) => ({
+  plugins: [
+    new OptimizeCSSAssetsPlugin({
+      assetNameRegExp: /\*.css$/g,
+      cssProcessor: cssnano,
+      cssProcessorPluginOptions: options,
+      canPrint: false,
+    }),
+  ],
 });
 exports.loadImages = ({ include, exclude, options, use = [] }) => ({
   module: {
@@ -137,4 +172,7 @@ exports.page = ({
       ...options,
     }),
   ],
+});
+exports.clean = () => ({
+  plugins: [new CleanWebpackPlugin()],
 });
