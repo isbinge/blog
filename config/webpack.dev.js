@@ -15,6 +15,21 @@ module.exports = merge([
       name: '[name].[hash:5].[ext]',
     },
   }),
+  parts.loadCSS({
+    test: /\.(sc|sa|c)ss$/,
+    include: path.resolve(parts.appDirectory, 'src'),
+    miniCssExtractConfig: {
+      hmr: true,
+      reloadAll: true,
+    },
+    cssLoaderOptions: {
+      modules: {
+        localIdentName: '[folder]_[name]_[hash:5]',
+      },
+      sourceMap: true,
+    },
+    use: [parts.autoprefix(), parts.parseScss({})],
+  }),
   parts.page({
     output: {
       filename: '[name].[hash:5].js',

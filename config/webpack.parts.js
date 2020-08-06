@@ -2,6 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const dotEnv = require('dotenv');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 dotEnv.config({
   path: path.resolve(process.cwd(), '.env'),
@@ -30,6 +32,46 @@ exports.loadTypeScript = ({ include, exclude, options, use = [] }) => {
     },
   };
 };
+exports.loadCSS = ({
+  test,
+  include,
+  exclude,
+  miniCssLoaderOptions,
+  miniCssExtractConfig,
+  cssLoaderOptions,
+  use = [],
+}) => {
+  const plugin = new MiniCssExtractPlugin(miniCssExtractConfig);
+
+  const defaultLoaders = [{ loader: 'css-loader', options: cssLoaderOptions }].concat(use);
+  return {
+    module: {
+      rules: [
+        {
+          test: { test },
+          include,
+          exclude,
+          use: [
+            process.env.NODE_ENV === 'development'
+              ? 'style-loader'
+              : { loader: MiniCssExtractPlugin.loader, options: miniCssLoaderOptions },
+          ].concat(defaultLoaders),
+        },
+      ],
+    },
+    plugins: process.env.NODE_ENV === 'development' ? [] : [plugin],
+  };
+};
+exports.parseScss = ({ options }) => ({
+  loader: 'sass-loader',
+  options,
+});
+exports.autoprefix = () => ({
+  loader: 'postcss-loader',
+  options: {
+    plugins: () => [require('autoprefixer')()],
+  },
+});
 exports.loadImages = ({ include, exclude, options, use = [] }) => ({
   module: {
     rules: [
