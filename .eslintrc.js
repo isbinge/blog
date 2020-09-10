@@ -20,7 +20,9 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['react', '@typescript-eslint', 'prettier'],
-  rules: {},
+  rules: {
+    'react/prop-types': 0,
+  },
   overrides: [
     {
       files: ['./config/*.js'],

@@ -11,4 +11,5 @@ module.exports = merge([
   },
   parts.dontParse({ name: '@', path: path.resolve('src') }),
   parts.dontParse({ name: '@comps', path: path.resolve('src/components') }),
+  parts.dontParse({ name: 'react-dom', path: '@hot-loader/react-dom' }),
 ]);

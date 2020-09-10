@@ -81,6 +81,20 @@ exports.loadCSS = ({
               : { loader: MiniCssExtractPlugin.loader, options: miniCssLoaderOptions },
           ].concat(defaultLoaders),
         },
+        {
+          test: /\.css$/,
+          use: [
+            {
+              loader: 'style-loader',
+            },
+            {
+              loader: 'css-loader',
+              options: {
+                sourceMap: true,
+              },
+            },
+          ],
+        },
       ],
     },
     plugins: process.env.NODE_ENV === 'development' ? [] : [plugin],

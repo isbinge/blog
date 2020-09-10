@@ -23,15 +23,14 @@ module.exports = merge([
     },
   }),
   parts.loadCSS({
-    test: /\.(sc|sa|c)ss$/,
-    include: path.resolve(parts.appDirectory, 'src'),
+    test: /\.(sc|sa)ss$/,
     miniCssExtractConfig: {
       hmr: true,
       reloadAll: true,
     },
     cssLoaderOptions: {
       modules: {
-        localIdentName: '[folder]_[name]_[hash:5]',
+        localIdentName: '[folder]_[local]_[hash:5]',
       },
       sourceMap: true,
     },
